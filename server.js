@@ -1,15 +1,6 @@
 // Import
 const fastify = require('fastify')({logger: true}); // get the some extra information on the console
-
-fastify.register(require('@fastify/swagger'), {
-    exposeRoute: true,
-    routePrefix: '/docs',
-    swagger: {
-      info: { title: 'fastify-api' },
-    },
-  })
-
-fastify.register(require('./routes/items.js'));
+fastify.register(require('./routes/items'));
 
 
 // start server (return promise)

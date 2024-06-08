@@ -5,4 +5,5 @@ let items = [
     {id: '4', name: "Item four"},
     {id: '5', name: "Item five"},
 ];
+
 module.exports = items;
