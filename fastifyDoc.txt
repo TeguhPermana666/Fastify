@@ -1,0 +1,6 @@
+# Fastify
+- 20% Faster than express, more efficiencty
+
+# Road map
+- Create API CRUD (controller, router, server REST API)
+
