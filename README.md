@@ -1,5 +1,5 @@
 # CRUD REST API 
-- run : npn run server
+- run : npm run server
 - The system just only
   - create the item with post
   - read the item get
