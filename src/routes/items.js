@@ -1,5 +1,6 @@
-const fastify = require('fastify');
-const {getItems, getItem, addItem, deleteItem, updateItem} = require('../controllers/items');
+import Fastify  from 'fastify';
+let fastify = Fastify();
+import {getItems, getItem, addItem, deleteItem, updateItem} from '../controllers/items.js';
 // Item schema 
 const Item  ={
     type:'object',
@@ -92,4 +93,4 @@ function itemRoutes (fastify, options, done) {
 }
 
 // Export Routes CRUD
-module.exports = itemRoutes;
+export default itemRoutes;

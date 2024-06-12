@@ -6,4 +6,4 @@ let items = [
     {id: '5', name: "Item five"},
 ];
 
-module.exports = items;
+export default items;
