@@ -7,33 +7,21 @@ import itemRepository from '../repository/items.js';
  * Services abstract away the implementation details of how specific operations are carried out, promoting modularity and reusability.
  */
 const itemService = {
-    getItems:() =>{
-        return itemRepository.getItems();
+    async getItems(){
+        return await itemRepository.getItems();
     },
-    getItemById:(id)=>{
+    async getItemById(id){
         return itemRepository.getItemById(id);
     },
-    addItem:(name)=>{
-        return itemRepository.addItem(name);
+    async addItem(name){
+        return await itemRepository.addItem(name);
     },
-    deleteItem:(id)=>{
-        const index = itemRepository.deleteItem(id);
-        if (index !== -1) {
-            throw new Error(`Item with id ${id} not found`);
-        }
-        else{
-            return index
-        }
+    async deleteItem(id){
+        return await itemRepository.deleteItem(id);
     },
-    updateItem:(id, name)=>{
-        const index = itemRepository.updateItem(id, name);
-        if (index !== -1) {
-            return index;
-        }
-        else{
-            throw new Error(`Item with id ${id} not found`);
-        }
-    },
+    async updateItem(id, name){
+        return await itemRepository.updateItem(id, name);
+    }
 
 }
 

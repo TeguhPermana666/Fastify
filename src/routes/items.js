@@ -1,6 +1,10 @@
 import Fastify  from 'fastify';
+// import {getItems, getItem, addItem, deleteItem, updateItem} from '../controllers/items.js';
+import {itemController} from '../controllers/items.js';
+
 let fastify = Fastify();
-import {getItems, getItem, addItem, deleteItem, updateItem} from '../controllers/items.js';
+const {getItems,getItemById,addItem,deleteItem,updateItem} = itemController;
+
 // Item schema 
 const Item  ={
     type:'object',
@@ -29,11 +33,23 @@ const getItemOpts = {
     schema:{
         response:{
             200:Item,
+            404:{
+                type:'object',
+                properties:{
+                    error: {type:'string'},
+                }
+            }
         },
+        params:{
+            type:'object',
+            properties:{
+                id:{type:'string'},
+            }
+        }
     },
-    handler: getItem,
+    handler: getItemById,
 }
-//  Create
+// //  Create
 
 const postItemOpts = {
     schema:{
@@ -45,7 +61,13 @@ const postItemOpts = {
             },
         },
         response:{
-            201: Item,   
+            201: Item, 
+            500:{
+                type:'object',
+                properties:{
+                    error: {type:'string'},
+                }
+            }  
         },
     },
     handler:addItem,
@@ -54,21 +76,60 @@ const postItemOpts = {
 const deleteItemOpts = {
     schema:{
         response:{
-            200: {
+            200: Item,
+            404:{
                 type:'object',
                 properties:{
-                    message: {type:'string'},
+                    error: {type:'string'},
+                }
+            },
+            500: {
+                type: 'object',
+                properties: {
+                    error: { type: 'string' }
                 }
             },
         },
+        params:{
+            type:'object',
+            properties:{
+                id:{type:'string'},
+            }
+        }
     },
     handler: deleteItem,
 }
 
 const updateItemOpts = {
     schema:{
+        body: {
+            type: 'object',
+            required: ['name'],
+            properties: {
+                name: { type: 'string' }
+            }
+        },
         response:{
             200: Item,
+            404:{
+                type:'object',
+                properties:{
+                    error: {type:'string'},
+                },
+            },
+            500:{
+                type: 'object',
+                properties: {
+                    error: { type: 'string' }
+                },
+            },
+        },
+        params: {
+            type: 'object',
+            required: ['id'],
+            properties: {
+                id: { type: 'string' }
+            }
         },
     },
     handler: updateItem,
@@ -78,16 +139,16 @@ function itemRoutes (fastify, options, done) {
     // Get all data
     fastify.get('/items', getItemsOpts)
 
-    // Get the single data
+    // // Get the single data
     fastify.get('/items/:id',getItemOpts)
     
-    // Post the data
+    // // Post the data
     fastify.post('/items', postItemOpts);
     
-    // Delete the data
+    // // Delete the data
     fastify.delete('/items/:id', deleteItemOpts);
     
-    // Update the data
+    // // Update the data
     fastify.put('/items/:id', updateItemOpts);
     done();
 }

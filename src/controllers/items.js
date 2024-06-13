@@ -4,34 +4,65 @@ import itemService from "../service/items.js";
  *  It interacts with the service layer to execute specific use cases or application operations based on the `request received`.
  */
 // Read
-const getItems = (req,res)=>{
-    const items = itemService.getItems();
-    res.code(200).send(items);
+export const itemController = {
+    async getItems (req,res){
+        try {
+            const items = await itemService.getItems();
+            res.status(200).send(items);
+          } catch (error) {
+            console.error("Error in itemController.getItems:", error);
+            res.status(500).send({ error: 'Internal server error' });
+        }
+    },
+    async getItemById(req,res){
+        const {id} = req.params;
+        try{
+            const items = await itemService.getItemById(id);
+            if(!items){
+                return res.status(404).send({ error: 'Item not found' });
+            }
+            res.status(200).send(items);
+        }catch(error){
+            console.error("Error in itemController.getItemById:", error);
+            res.status(500).send({ error: 'Internal server error' });
+        } 
+    },
+    async addItem(req,res){
+        const {name} = req.body;
+        try{
+            const newItem = await itemService.addItem(name);
+            res.status(201).send(newItem);
+        }catch(err){
+            console.error("Error in itemController.addItem:", err);
+            res.status(500).send({ error: 'Internal server error' });
+        }
+    },
+    async deleteItem(req,res){
+       const { id } = req.params;
+        try {
+            const deletedItem = await itemService.deleteItem(id);
+            if (deletedItem) {
+                res.status(200).send(deletedItem);
+            } else {
+                res.status(404).send({ error: 'Item not found' });
+            }
+        } catch (error) {
+            console.error("Error in itemController.deleteItem:", error);
+            res.status(500).send({ error: 'Internal server error' });
+        }
+    },
+    async updateItem(req,res){
+        const {id} = req.params;
+        const {name} = req.body;
+        try{
+            const updatedItem = await itemService.updateItem(id,name);
+            if(updatedItem){
+                res.status(200).send(updatedItem);
+            }else{
+                res.status(404).send({error: 'Item not found'});
+            }
+        }catch(err){
+            res.status(500).send({error: 'Internal server error'});
+        }
+    }
 }
-
-const getItem = (req,res)=>{
-    const {id} = req.params;
-    const item = itemService.getItemById(id);
-    res.code(200).send(item); 
-}
-// Create
-const addItem = (req, res) =>{
-    const { name } = req.body;
-    const item = itemService.addItem(name);
-    res.code(201).send(item);
-}
-// Delete
-const deleteItem = (req,res)=>{
-    const {id} = req.params
-    const index= itemService.deleteItem(id);
-    res.code(200).send(`Item with id ${id} has been deleted`);
-}
-
-// Update
-const updateItem = (req,res)=>{
-    const {id} = req.params;
-    const {name} = req.body;
-    const index = itemService.updateItem(id, name);
-    res.code(200).send(`Item with id ${id} has been updated`);
-}
-export{getItems,getItem,addItem, deleteItem, updateItem};

@@ -8,38 +8,60 @@
  */
 import items from '../../Items.js';
 import {v4 as uuidv4} from 'uuid';
+import pg from 'pg';
+const {Pool} = pg;
+const pool = new Pool({
+    user: "postgres",
+    host: "localhost",
+    database: "backend",
+    password: "1110",
+    port: 5432,
+});
 
 const itemRepository = {
-    getItems:()=>{
-        return items;
-    },
-    getItemById:(id)=>{
-        const item = items.find((item) => item.id === id);
-        return item;
-    },
-    addItem:(name)=>{
-        const item = {
-            id: uuidv4(),
-            name,
-        };
-        items.push(item); // update file items
-        return item; // return new item for output
-    },
-    deleteItem: (id) => {
-        const index = items.findIndex((item) => item.id === id);
-        if (index !== -1) {
-            items.splice(index, 1);
-            return index;
-        }else{
-            return index;
+    async getItems(){
+        try{
+            const result = await pool.query('SELECT * FROM item');
+            return result.rows;
+        }catch(err){
+            throw new Error(err);
         }
     },
-    updateItem:(id, name)=>{
-        const index = items.findIndex((item) => item.id === id);
-        if (index !== -1) {
-            items[index].name = name; // Perbarui properti dari item yang ditemukan
+    async getItemById(id){
+        try{
+            const result = await pool.query('SELECT * FROM item WHERE id = $1', [id]);
+            return result.rows[0];
+       }catch(err){
+           throw new Error(err);
+       }
+    },
+    async addItem(name){
+        const itemId = uuidv4();
+        try{
+            const result = await pool.query('INSERT INTO item (id,name) VALUES ($1,$2) RETURNING *', [itemId,name]); 
+            return result.rows[0] // Return the added item brodi
+        }catch(err){
+            throw new Error(err);
         }
-        return index;
+    },
+    async deleteItem(id){
+        try{
+            const result = await pool.query('DELETE FROM item WHERE id = $1 RETURNING *', [id]);
+            return result.rows[0];
+        }catch(err){
+            throw new Error(err);
+        }
+    },
+    async updateItem(id, name){
+        try{
+            const result = await pool.query('UPDATE item SET name = $1 WHERE id = $2 RETURNING *', [name, id]);
+            if(result.rowCount === 0){
+                return null;
+            }
+            return result.rows[0]
+        }catch(err){
+            throw new Error(err);
+        }
     }
 }
 
