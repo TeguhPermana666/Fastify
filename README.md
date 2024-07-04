@@ -1,8 +1,11 @@
 # CRUD REST API 
 - run : npm run server
-- The system just only
+- CRUD Items:
   - create the item with post
   - read the item get
   - update the item put
   - delete the item delete
+- Authentication with JWT:
+  - Register: Post
+  - Login: Post 
 - Testing : test the API with test.http, by used the REST CLIENT ekstension.
