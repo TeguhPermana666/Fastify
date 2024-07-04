@@ -16,7 +16,10 @@ export const userController = {
         const {email, password} = req.body;
         try{
             const {user, token} = await userService.loginUser(email, password);
-            res.status(200).send({user, token});
+            const userWithoutPassword = {
+                id: user.id,
+            };
+            res.status(200).send({userWithoutPassword, token});
         }catch(err){
             console.error("Error in userController.loginUser:", err);
             res.status(400).send({error:'Invalid credentials'});
