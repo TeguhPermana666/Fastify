@@ -1,7 +1,7 @@
 import Fastify  from 'fastify';
 // import {getItems, getItem, addItem, deleteItem, updateItem} from '../controllers/items.js';
 import {itemController} from '../controllers/items.js';
-
+import {authenticateJWT} from '../middleware/auth.js';
 let fastify = Fastify();
 const {getItems,getItemById,addItem,deleteItem,updateItem} = itemController;
 
@@ -137,19 +137,19 @@ const updateItemOpts = {
 
 function itemRoutes (fastify, options, done) {
     // Get all data
-    fastify.get('/items', getItemsOpts)
+    fastify.get('/items', {...getItemsOpts, preHandler: [authenticateJWT]})
 
     // // Get the single data
-    fastify.get('/items/:id',getItemOpts)
+    fastify.get('/items/:id',{...getItemOpts, preHandler: [authenticateJWT]})
     
     // // Post the data
-    fastify.post('/items', postItemOpts);
+    fastify.post('/items', {...postItemOpts, preHandler: [authenticateJWT]});
     
     // // Delete the data
-    fastify.delete('/items/:id', deleteItemOpts);
+    fastify.delete('/items/:id', {...deleteItemOpts, preHandler: [authenticateJWT]});
     
     // // Update the data
-    fastify.put('/items/:id', updateItemOpts);
+    fastify.put('/items/:id', {...updateItemOpts, preHandler: [authenticateJWT]});
     done();
 }
 

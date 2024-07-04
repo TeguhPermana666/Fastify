@@ -6,7 +6,6 @@
  * => The repository pattern encapsulates the `logic` for fetching, storing, updating, and deleting data entities. 
  * It ensures that the rest of the application is decoupled from the details of how data is persisted, allowing for easier maintenance and testing.
  */
-import items from '../../Items.js';
 import {v4 as uuidv4} from 'uuid';
 import pg from 'pg';
 const {Pool} = pg;
