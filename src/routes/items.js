@@ -1,7 +1,7 @@
 import Fastify  from 'fastify';
 // import {getItems, getItem, addItem, deleteItem, updateItem} from '../controllers/items.js';
 import {itemController} from '../controllers/items.js';
-import {authenticateJWT} from '../middleware/auth.js';
+import authenticateJWT from '../middleware/auth.js';
 let fastify = Fastify();
 const {getItems,getItemById,addItem,deleteItem,updateItem} = itemController;
 

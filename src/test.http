@@ -23,3 +23,58 @@ Content-Type: application/json
 {
   "name": "Kimoci Item"
 }
+
+### Register User
+POST http://localhost:5000/register
+Content-Type: application/json
+
+{
+    "email": "test@example.com",
+    "username": "testuser",
+    "password": "1234567"
+}
+
+### Login User
+POST http://localhost:5000/login
+Content-Type: application/json
+
+{
+    "email": "test@example.com",
+    "password": "1234567"
+}
+
+### Get All Items (protected route, requires token)
+GET http://localhost:5000/items
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImE0Y2Y2ZmU1LTU5YTMtNDRlMS04YTVjLTc4Y2E5MTgzYjFlMCIsImVtYWlsIjoidGVzdEBleGFtcGxlLmNvbSIsImlhdCI6MTcyMDA1OTQ3MCwiZXhwIjoxNzIwMDYzMDcwfQ.0AYyJmvRZMwDwR-xgh-UF2_Lu480w0szzeQbg0vEZHM
+
+### Get Item by ID (protected route, requires token)
+GET http://localhost:5000/items/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImE0Y2Y2ZmU1LTU5YTMtNDRlMS04YTVjLTc4Y2E5MTgzYjFlMCIsImVtYWlsIjoidGVzdEBleGFtcGxlLmNvbSIsImlhdCI6MTcyMDA1OTQ3MCwiZXhwIjoxNzIwMDYzMDcwfQ.0AYyJmvRZMwDwR-xgh-UF2_Lu480w0szzeQbg0vEZHM
+
+###
+
+### Add Item (protected route, requires token)
+POST http://localhost:5000/items
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImE0Y2Y2ZmU1LTU5YTMtNDRlMS04YTVjLTc4Y2E5MTgzYjFlMCIsImVtYWlsIjoidGVzdEBleGFtcGxlLmNvbSIsImlhdCI6MTcyMDA1OTQ3MCwiZXhwIjoxNzIwMDYzMDcwfQ.0AYyJmvRZMwDwR-xgh-UF2_Lu480w0szzeQbg0vEZHM
+
+{
+    "name": "NewItem"
+}
+
+###
+
+### Delete Item (protected route, requires token)
+DELETE http://localhost:5000/items/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImE0Y2Y2ZmU1LTU5YTMtNDRlMS04YTVjLTc4Y2E5MTgzYjFlMCIsImVtYWlsIjoidGVzdEBleGFtcGxlLmNvbSIsImlhdCI6MTcyMDA1OTQ3MCwiZXhwIjoxNzIwMDYzMDcwfQ.0AYyJmvRZMwDwR-xgh-UF2_Lu480w0szzeQbg0vEZHM
+
+###
+
+### Update Item (protected route, requires token)
+PUT http://localhost:5000/items/1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImE0Y2Y2ZmU1LTU5YTMtNDRlMS04YTVjLTc4Y2E5MTgzYjFlMCIsImVtYWlsIjoidGVzdEBleGFtcGxlLmNvbSIsImlhdCI6MTcyMDA1OTQ3MCwiZXhwIjoxNzIwMDYzMDcwfQ.0AYyJmvRZMwDwR-xgh-UF2_Lu480w0szzeQbg0vEZHM
+
+{
+    "name": "UpdatedItem"
+}

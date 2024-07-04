@@ -1,4 +1,4 @@
-import userRepository from "../repository/users";
+import userRepository from "../repository/users.js";
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
@@ -16,7 +16,10 @@ const userService = {
             throw new Error('Invalid credentials');
         }
 
-        const token = jwt.sign({id:user.id, email: user.email}, process.env.JWT_SECRET, {expiresIn: process.env.JWT_EXPIRES_IN});
+        const token = jwt.sign(
+            {id:user.id, email: user.email}, 
+            process.env.JWT_SECRET, 
+            {expiresIn: process.env.JWT_EXPIRES_IN});
         return {user, token};
     },
 };
